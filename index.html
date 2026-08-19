@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💗 Naomi 💗</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffe0ec 0%, #ffb6d0 40%, #ff8eb5 70%, #ff6b9d 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ============================================
+       FONDO CON CORAZONES Y FRASES EN MOVIMIENTO
+       ============================================ */
+    #fondo-movimiento {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .elemento-fondo {
+      position: absolute;
+      font-size: 28px;
+      animation: flotarFondo 14s infinite linear;
+      opacity: 0.2;
+      user-select: none;
+      white-space: nowrap;
+      font-weight: 700;
+      text-shadow: 0 0 30px rgba(255, 50, 120, 0.3);
+    }
+
+    @keyframes flotarFondo {
+      0% {
+        transform: translateY(110vh) rotate(0deg) scale(0.6);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.25;
+      }
+      90% {
+        opacity: 0.25;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(720deg) scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    /* ============================================
+       TARJETA PRINCIPAL
+       ============================================ */
+    .card {
+      max-width: 820px;
+      width: 100%;
+      background: rgba(255, 235, 242, 0.88);
+      backdrop-filter: blur(16px);
+      border-radius: 80px 80px 55px 55px;
+      padding: 35px 30px 40px;
+      box-shadow: 0 40px 80px rgba(180, 40, 80, 0.35),
+                  0 0 0 3px rgba(255, 150, 200, 0.3),
+                  inset 0 0 100px rgba(255, 150, 200, 0.15);
+      border: 3px solid rgba(255, 255, 255, 0.6);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============================================
+       TÍTULO
+       ============================================ */
+    .titulo-principal {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #a1305a;
+      text-shadow: 4px 4px 0 rgba(255, 120, 180, 0.3),
+                   0 0 30px rgba(255, 80, 140, 0.15);
+      margin-bottom: 6px;
+      letter-spacing: 2px;
+    }
+
+    .titulo-principal .corazon-titulo {
+      display: inline-block;
+      animation: latido 1.6s infinite ease-in-out;
+      color: #e74c7a;
+    }
+
+    @keyframes latido {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.2); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.1); }
+      60% { transform: scale(1); }
+    }
+
+    .subtitulo {
+      font-size: 1.1rem;
+      color: #b84a6e;
+      background: linear-gradient(135deg, rgba(255, 180, 210, 0.6), rgba(255, 140, 180, 0.4));
+      display: inline-block;
+      padding: 8px 30px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      border: 2px solid rgba(255, 120, 170, 0.3);
+      backdrop-filter: blur(4px);
+      letter-spacing: 0.5px;
+    }
+
+    .frase-superior {
+      font-size: 1rem;
+      color: #c94f76;
+      background: rgba(255, 220, 235, 0.5);
+      padding: 6px 20px;
+      border-radius: 30px;
+      display: inline-block;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 100, 150, 0.2);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    /* ============================================
+       GALERÍA - 5 FOTOS (3 arriba, 2 abajo con la destacada al centro)
+       ============================================ */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin: 20px 0 28px;
+      max-width: 100%;
+    }
+
+    .grid-item {
+      border-radius: 35px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(160, 40, 80, 0.2);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: white;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    /* Corazoncito en cada foto */
+    .grid-item::after {
+      content: '💕';
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      font-size: 28px;
+      opacity: 0;
+      transition: all 0.4s ease;
+      text-shadow: 0 0 20px rgba(255, 0, 80, 0.5);
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+      transform: scale(0.5);
+    }
+
+    .grid-item:hover::after {
+      opacity: 1;
+      transform: scale(1.2) rotate(10deg);
+    }
+
+    /* ============================================
+       IMAGEN DESTACADA - ocupa 2 columnas abajo
+       ============================================ */
+    .destacada {
+      grid-column: 1 / 3;
+      grid-row: 2 / 3;
+      aspect-ratio: 2 / 1;
+      transform: scale(1.02);
+      border: 6px solid #ff6b9d;
+      box-shadow: 0 0 0 8px rgba(255, 80, 150, 0.2),
+                  0 0 40px rgba(255, 50, 120, 0.3),
+                  0 30px 50px rgba(200, 40, 100, 0.4),
+                  inset 0 0 60px rgba(255, 100, 150, 0.1);
+      z-index: 2;
+      background: #ffd9e5;
+      border-radius: 50px;
+      animation: brilloDestacada 3s infinite alternate ease-in-out;
+      margin-top: 0;
+    }
+
+    @keyframes brilloDestacada {
+      0% {
+        box-shadow: 0 0 0 8px rgba(255, 80, 150, 0.2),
+                    0 0 30px rgba(255, 50, 120, 0.2),
+                    0 30px 50px rgba(200, 40, 100, 0.3);
+      }
+      100% {
+        box-shadow: 0 0 0 14px rgba(255, 80, 150, 0.35),
+                    0 0 60px rgba(255, 50, 120, 0.4),
+                    0 30px 60px rgba(200, 40, 100, 0.5);
+      }
+    }
+
+    /* Etiqueta "NOSOTROS" */
+    .destacada::before {
+      content: '💑 NOSOTROS 💑';
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 40, 100, 0.9);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 8px 24px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      opacity: 0;
+      transition: all 0.4s ease;
+      white-space: nowrap;
+      box-shadow: 0 6px 25px rgba(200, 0, 80, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      z-index: 3;
+    }
+
+    .destacada:hover::before {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.05);
+    }
+
+    .destacada::after {
+      content: '❤️';
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 38px;
+      opacity: 0.8;
+      animation: latido 1.5s infinite ease-in-out;
+      text-shadow: 0 0 30px rgba(255, 0, 80, 0.6);
+    }
+
+    .grid-item:hover:not(.destacada) {
+      transform: translateY(-10px) scale(1.04);
+      box-shadow: 0 22px 40px rgba(180, 40, 80, 0.35);
+      border-color: #ff9eb9;
+    }
+
+    .destacada:hover {
+      transform: scale(1.06);
+      border-color: #ff4080;
+    }
+
+    /* ============================================
+       MENSAJE PRINCIPAL
+       ============================================ */
+    .mensaje-amor {
+      margin: 22px 0 12px;
+      font-size: 2.8rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #d43f6b, #a1305a, #d43f6b);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding: 6px 20px;
+      display: inline-block;
+      position: relative;
+      letter-spacing: 3px;
+      animation: gradienteAmor 4s ease infinite;
+      cursor: pointer;
+    }
+
+    @keyframes gradienteAmor {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .mensaje-amor::before {
+      content: '💖';
+      position: absolute;
+      left: -55px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      -webkit-text-fill-color: initial;
+      animation: latido 1.8s infinite ease-in-out;
+    }
+
+    .mensaje-amor::after {
+      content: '💖';
+      position: absolute;
+      right: -55px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      -webkit-text-fill-color: initial;
+      animation: latido 1.8s infinite ease-in-out 0.3s;
+    }
+
+    .mensaje-amor span {
+      display: inline-block;
+      animation: latido 1.8s infinite ease-in-out;
+      -webkit-text-fill-color: #d43f6b;
+    }
+
+    /* ============================================
+       FRASES ROMÁNTICAS
+       ============================================ */
+    .frases-container {
+      margin: 15px 0 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .frase-romantica {
+      font-size: 1.05rem;
+      color: #b34a6e;
+      background: rgba(255, 220, 235, 0.5);
+      padding: 10px 24px;
+      border-radius: 40px;
+      display: inline-block;
+      border: 2px dashed #ff8fb0;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      max-width: 90%;
+      transition: all 0.3s ease;
+    }
+
+    .frase-romantica:hover {
+      background: rgba(255, 200, 220, 0.7);
+      transform: scale(1.02);
+      border-color: #ff6b9d;
+    }
+
+    .frase-romantica .corazoncito {
+      display: inline-block;
+      animation: latido 1.5s infinite ease-in-out;
+      color: #e74c7a;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 750px) {
+      .card {
+        padding: 25px 18px 30px;
+        border-radius: 50px;
+      }
+
+      .titulo-principal {
+        font-size: 2.5rem;
+      }
+
+      .grid {
+        gap: 14px;
+      }
+
+      .destacada {
+        grid-column: 1 / 3;
+        aspect-ratio: 2 / 1;
+        transform: scale(1.02);
+        border-width: 4px;
+      }
+
+      .destacada:hover {
+        transform: scale(1.05);
+      }
+
+      .mensaje-amor {
+        font-size: 2.2rem;
+        padding: 6px 12px;
+      }
+
+      .mensaje-amor::before,
+      .mensaje-amor::after {
+        display: none;
+      }
+
+      .destacada::before {
+        font-size: 0.75rem;
+        padding: 5px 14px;
+        bottom: 12px;
+      }
+
+      .frase-romantica {
+        font-size: 0.95rem;
+        padding: 8px 16px;
+      }
+
+      .destacada::after {
+        font-size: 28px;
+        top: 12px;
+        right: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        gap: 10px;
+      }
+
+      .destacada {
+        aspect-ratio: 2 / 1;
+        transform: scale(1.01);
+      }
+
+      .titulo-principal {
+        font-size: 2rem;
+      }
+
+      .mensaje-amor {
+        font-size: 1.8rem;
+      }
+
+      .frase-romantica {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+      }
+
+      .subtitulo {
+        font-size: 0.9rem;
+        padding: 6px 18px;
+      }
+
+      .destacada::after {
+        font-size: 22px;
+        top: 10px;
+        right: 10px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .grid {
+        gap: 8px;
+      }
+
+      .destacada::before {
+        font-size: 0.6rem;
+        padding: 4px 10px;
+        bottom: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================
+     FONDO CON CORAZONES Y FRASES EN MOVIMIENTO
+     ============================================ -->
+<div id="fondo-movimiento"></div>
+
+<!-- ============================================
+     TARJETA PRINCIPAL
+     ============================================ -->
+<div class="card">
+  
+  <div class="frase-superior">
+    💕 "Cada latido es tuyo" 💕
+  </div>
+
+  <div class="titulo-principal">
+    <span class="corazon-titulo">💗</span> Para mi Naomi <span class="corazon-titulo">💗</span>
+  </div>
+
+  <div class="subtitulo">
+    ✨ 5 momentos · 1 lugar mágico ✨
+  </div>
+
+  <!-- ============================================
+       GALERÍA DE 5 FOTOS 
+       ============================================ -->
+  <div class="grid">
+    <!-- FOTO 1 -->
+    <div class="grid-item">
+      <img src="img/normal.jpeg" alt="1">
+    </div>
+    <!-- FOTO 2 -->
+    <div class="grid-item">
+      <img src="img/usagi.jpeg" alt="2">
+    </div>
+    <!-- FOTO 3 -->
+    <div class="grid-item">
+      <img src="img/luffy.jpeg" alt="3">
+    </div>
+    <!-- ⭐ FOTO 4 - DESTACADA (ocupa 2 columnas abajo) ⭐ -->
+    <div class="grid-item destacada">
+      <img src="img/nosotros.jpeg" alt="Nuestro lugar❤️">
+    </div>
+    <!-- FOTO 5 -->
+    <div class="grid-item" style="grid-column: 3 / 4; grid-row: 2 / 3;">
+      <img src="img/azul.jpeg" alt="5">
+    </div>
+  </div>
+
+  <!-- ============================================
+       MENSAJE PRINCIPAL
+       ============================================ -->
+  <div class="mensaje-amor" id="mensajeAmor">
+    <span>❤️ Te amo Naomi ❤️</span>
+  </div>
+
+  <!-- ============================================
+       FRASES ROMÁNTICAS
+       ============================================ -->
+  <div class="frases-container">
+    <div class="frase-romantica">
+      <span class="corazoncito">💗</span> Tu sonrisa es mi lugar favorito 
+      <span class="corazoncito">💗</span>
+    </div>
+    <div class="frase-romantica">
+      <span class="corazoncito">💖</span> Eres el "siempre" que elegiría cada día 
+      <span class="corazoncito">💖</span>
+    </div>
+    <div class="frase-romantica">
+      <span class="corazoncito">💕</span> Contigo, hasta el silencio es poesía 
+      <span class="corazoncito">💕</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // =============================================
+  // 1. CREAR ELEMENTOS EN EL FONDO (CORAZONES + FRASES)
+  // =============================================
+  (function crearFondoMovimiento() {
+    const contenedor = document.getElementById('fondo-movimiento');
+    
+    // Emojis de corazones
+    const emojis = ['❤️', '💕', '💗', '💖', '💘', '💝', '💓', '🩷'];
+    
+    // Frases románticas para el fondo
+    const frases = [
+      'Te amo 💕', 'Eres mi todo 💗', 'Siempre tú 💖',
+      'Mi amor eterno 💘', 'Eres mi sueño 💝', 'Contigo es mejor 💕',
+      'Te elijo cada día 💗', 'Mi persona favorita 💖', 'Amor infinito 💘'
+    ];
+    
+    // Mezclar ambos tipos de elementos
+    const elementos = [];
+    
+    // Agregar 20 corazones
+    for (let i = 0; i < 20; i++) {
+      elementos.push({
+        tipo: 'corazon',
+        contenido: emojis[Math.floor(Math.random() * emojis.length)]
+      });
+    }
+    
+    // Agregar 12 frases
+    for (let i = 0; i < 12; i++) {
+      elementos.push({
+        tipo: 'frase',
+        contenido: frases[Math.floor(Math.random() * frases.length)]
+      });
+    }
+    
+    // Barajar para mezclar
+    for (let i = elementos.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [elementos[i], elementos[j]] = [elementos[j], elementos[i]];
+    }
+    
+    // Crear cada elemento en el fondo
+    elementos.forEach((el) => {
+      const div = document.createElement('div');
+      div.className = 'elemento-fondo';
+      div.textContent = el.contenido;
+      
+      // Posición horizontal aleatoria
+      const x = Math.random() * 100;
+      // Tamaño aleatorio (más grande para frases)
+      let size;
+      if (el.tipo === 'frase') {
+        size = 20 + Math.random() * 18; // 20-38px
+      } else {
+        size = 22 + Math.random() * 40; // 22-62px
+      }
+      // Duración de animación aleatoria
+      const duracion = 12 + Math.random() * 16;
+      // Retraso aleatorio
+      const delay = Math.random() * 18;
+      // Colores rosas
+      const colores = ['#ff6b8a', '#ff8fab', '#ff4d7a', '#ff3d6b', '#ff1a5a', '#ff6b9d', '#e74c7a', '#ff4080'];
+      const color = colores[Math.floor(Math.random() * colores.length)];
+      
+      div.style.left = x + '%';
+      div.style.fontSize = size + 'px';
+      div.style.animationDuration = duracion + 's';
+      div.style.animationDelay = delay + 's';
+      div.style.color = color;
+      div.style.opacity = (el.tipo === 'frase') ? 0.15 : 0.2;
+      
+      // Si es frase, hacerla un poco más visible
+      if (el.tipo === 'frase') {
+        div.style.opacity = 0.18;
+        div.style.fontWeight = '700';
+        div.style.textShadow = '0 0 40px rgba(255,50,120,0.2)';
+        div.style.letterSpacing = '1px';
+      }
+      
+      contenedor.appendChild(div);
+    });
+  })();
+
+  // 2. CAMBIAR TÍTULO DE LA PESTAÑA
+  (function cambiarTitulo() {
+    const tituloOriginal = document.title;
+    const titulosAmor = ['💗 Naomi 💗', '💕 Te amo 💕', '❤️ Mi amor ❤️', '💖 Para ti 💖'];
+    let index = 0;
+
+    const intervalo = setInterval(() => {
+      document.title = titulosAmor[index % titulosAmor.length];
+      index++;
+    }, 3000);
+
+    setTimeout(() => {
+      clearInterval(intervalo);
+      document.title = tituloOriginal;
+    }, 18000);
+  })();
+
+  // 3. EFECTO DE CORAZONES AL HACER CLICK
+  document.getElementById('mensajeAmor').addEventListener('click', function(e) {
+    // Efecto de escala
+    this.style.transform = 'scale(0.92)';
+    setTimeout(() => {
+      this.style.transform = 'scale(1)';
+    }, 150);
+    
+    // Crear explosión de corazones
+    const emojis = ['❤️', '💕', '💗', '💖', '💘', '💝'];
+    for (let i = 0; i < 25; i++) {
+      const miniCorazon = document.createElement('div');
+      miniCorazon.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      const size = 16 + Math.random() * 32;
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = 70 + Math.random() * 140;
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance - 60;
+      
+      miniCorazon.style.cssText = `
+        position: fixed;
+        font-size: ${size}px;
+        left: ${e.clientX}px;
+        top: ${e.clientY}px;
+        pointer-events: none;
+        z-index: 9999;
+        color: ${['#ff3d6b', '#ff6b9d', '#ff8fab', '#ff4d7a', '#ff1a5a'][Math.floor(Math.random() * 5)]};
+        transition: all 1.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        opacity: 1;
+        user-select: none;
+        font-weight: 700;
+        text-shadow: 0 0 20px rgba(255,0,80,0.3);
+      `;
+      document.body.appendChild(miniCorazon);
+      
+      requestAnimationFrame(() => {
+        miniCorazon.style.transform = `translate(${dx}px, ${dy}px) scale(1.6) rotate(${Math.random() * 720}deg)`;
+        miniCorazon.style.opacity = '0';
+      });
+      
+      setTimeout(() => {
+        miniCorazon.remove();
+      }, 1500);
+    }
+  });
+
+  // 4. EFECTO EN LAS FRASES (hover)
+  document.querySelectorAll('.frase-romantica').forEach((frase) => {
+    frase.addEventListener('mouseenter', function() {
+      this.style.transform = 'scale(1.04)';
+      this.style.borderColor = '#ff4080';
+      this.style.backgroundColor = 'rgba(255, 180, 210, 0.6)';
+    });
+    frase.addEventListener('mouseleave', function() {
+      this.style.transform = 'scale(1)';
+      this.style.borderColor = '#ff8fb0';
+      this.style.backgroundColor = 'rgba(255, 220, 235, 0.5)';
+    });
+  });
+
+  console.log('💕 Para Naomi, con todo mi amor 💕');
+  console.log('💗 Eres mi persona favorita en el universo 💗');
+  console.log('❤️ Te amo más que a todos los corazones flotantes ❤️');
+</script>
+
+</body>
+</html>
